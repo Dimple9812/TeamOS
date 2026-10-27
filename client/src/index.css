@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-canvas: #f3f5f2;
+  --color-surface: #ffffff;
+  --color-ink: #1b2622;
+  --color-muted: #5f6d67;
+  --color-line: #d8dfda;
+  --color-line-strong: #b9c4bd;
+  --color-pine: #1f5f4e;
+  --color-pine-dark: #164638;
+  --color-pine-soft: #e3efe9;
+  --color-danger: #b42318;
+  --color-danger-soft: #fdecea;
+
+  /* One colour per status; the board's column rails and the project ribbon use the same four. */
+  --color-st-todo: #7d8a99;
+  --color-st-progress: #c47f12;
+  --color-st-review: #6d4fd8;
+  --color-st-done: #2f8a55;
+
+  --shadow-lift: 0 2px 4px rgb(27 38 34 / 0.08), 0 14px 28px -10px rgb(27 38 34 / 0.28);
+  --shadow-panel: 0 0 0 1px rgb(27 38 34 / 0.06), 0 24px 48px -16px rgb(27 38 34 / 0.25);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-pine);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -48px;
+  z-index: 100;
+  padding: 8px 12px;
+  background: var(--color-ink);
+  color: white;
+  border-radius: 6px;
+}
+.skip-link:focus {
+  top: 12px;
+}
+
+/* Thin, quiet scrollbars inside board columns. */
+.scroll-quiet {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+
+/* In the components layer so Tailwind utilities (padding, height) can still override it. */
+@layer components {
+  .field {
+    width: 100%;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    border-radius: 8px;
+    padding: 7px 10px;
+    font: inherit;
+    color: inherit;
+  }
+  .field:hover {
+    border-color: var(--color-line-strong);
+  }
+  .field:focus-visible {
+    outline: 2px solid var(--color-pine);
+    outline-offset: 0;
+    border-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

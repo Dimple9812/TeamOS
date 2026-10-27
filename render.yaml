@@ -1,0 +1,28 @@
+# Render Blueprint for the API + realtime server. The web app is deployed separately on Vercel.
+services:
+  - type: web
+    name: teamos-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm ci && npm run build
+    startCommand: node dist/index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: STORE
+        value: mongo
+      - key: MONGODB_URI
+        sync: false # paste your MongoDB Atlas connection string in the dashboard
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_ORIGIN
+        sync: false # e.g. https://teamos.vercel.app
+      - key: TRUST_PROXY_HOPS
+        value: "2"
+      - key: AUTH_RATE_LIMIT
+        value: "30"
+      # Optional: set one of these to use a real model; without them the AI features use the built-in planner.
+      - key: ANTHROPIC_API_KEY
+        sync: false
