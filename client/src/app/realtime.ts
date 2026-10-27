@@ -35,6 +35,18 @@ function applyActivity(dispatch: AppDispatch, a: Activity) {
   }
 }
 
+/**
+ * Joins the workspace room. Anything saved between the page's first fetch and the moment the room is
+ * joined would otherwise be missed, so once the server confirms the join we refetch what's on screen.
+ */
+function join(dispatch: AppDispatch, workspaceId: string) {
+  socket!.emit("workspace:join", { workspaceId }, (r: { ok: boolean }) => {
+    if (!r?.ok || joined !== workspaceId) return;
+    if (viewing) socket!.emit("presence:view", { projectId: viewing });
+    dispatch(api.util.invalidateTags(["Tasks", "Comments", "Activity", { type: "Projects", id: workspaceId }]));
+  });
+}
+
 function connect(dispatch: AppDispatch) {
   if (socket) return socket;
   dispatch(setConnection("connecting"));
@@ -53,12 +65,9 @@ function connect(dispatch: AppDispatch) {
   let firstConnect = true;
   socket.on("connect", () => {
     dispatch(setConnection("live"));
-    if (joined) {
-      socket!.emit("workspace:join", { workspaceId: joined });
-      if (viewing) socket!.emit("presence:view", { projectId: viewing });
-    }
-    // After a reconnect, refetch anything we may have missed while offline.
-    if (!firstConnect) dispatch(api.util.invalidateTags(["Tasks", "Comments", "Activity", "Projects", "Workspace"]));
+    if (joined) join(dispatch, joined);
+    // After a reconnect, refetch the workspace itself too (members or roles may have changed while offline).
+    if (!firstConnect) dispatch(api.util.invalidateTags(["Workspace"]));
     firstConnect = false;
   });
   socket.on("disconnect", () => dispatch(setConnection("connecting")));
@@ -112,7 +121,7 @@ export function useRealtime(workspaceId: string | undefined, projectId: string |
     const s = connect(dispatch);
     joined = workspaceId;
     dispatch(setPresence({ workspaceId, users: [] }));
-    if (s.connected) s.emit("workspace:join", { workspaceId });
+    if (s.connected) join(dispatch, workspaceId);
     return () => {
       if (joined === workspaceId) {
         s.emit("workspace:leave");

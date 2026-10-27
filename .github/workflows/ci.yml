@@ -54,7 +54,7 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: npx playwright install --with-deps chromium
-      - name: End-to-end (two browsers, offline sync, sharing, versions)
+      - name: End-to-end (drag-and-drop, two people live, AI breakdown, calendar, viewer read-only)
         run: npx playwright test
         env:
           CI: "true"

@@ -77,7 +77,7 @@ function Column({
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: status });
   return (
-    <section aria-label={STATUS_LABEL[status]} className="flex w-[78vw] max-w-[300px] shrink-0 flex-col sm:w-72 lg:w-auto lg:max-w-none lg:min-w-0 lg:flex-1">
+    <section aria-label={STATUS_LABEL[status]} className="flex w-[78vw] max-w-[300px] shrink-0 flex-col sm:w-72 lg:w-auto lg:max-w-none lg:min-w-[250px] lg:flex-1">
       <header className="mb-2 flex items-center gap-2 px-1">
         <span className="h-2.5 w-2.5 rounded-full" style={{ background: STATUS_COLOR[status] }} aria-hidden="true" />
         <h2 className="text-sm font-semibold">{STATUS_LABEL[status]}</h2>
