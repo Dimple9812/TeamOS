@@ -2,7 +2,7 @@
 
 Projects, a drag-and-drop Kanban board, a list and a calendar that the whole team edits **at the same time**, with comments, an activity feed, roles, and AI help to break a goal into tasks, summarise a project and draft your daily standup.
 
-**Live demo:** _coming soon_ · click **“Try the demo”**: you get your own team workspace with two teammates and work in progress, no sign-up.
+**Live demo:** [teamos-liart.vercel.app](https://teamos-liart.vercel.app) · click **“Try the demo”**: you get your own team workspace with two teammates and work in progress, no sign-up.
 
 > The API runs on a free host that sleeps when idle, so the first visit can take up to a minute to wake it. The page shows a progress message while that happens.
 
@@ -103,7 +103,7 @@ cd client && npm install && npm run dev        # http://localhost:5173
 ## Deploy
 
 - **API → Render:** `render.yaml` (root `server/`, health check `/api/health`). Set `MONGODB_URI` and `CLIENT_ORIGIN` in the dashboard, and optionally `ANTHROPIC_API_KEY`.
-- **Web app → Vercel:** root `client/`. `client/vercel.json` rewrites `/api/*` to the Render URL; set `VITE_SOCKET_URL` to the Render URL.
+- **Web app → Vercel:** root `client/`. `client/vercel.json` rewrites `/api/*` to the Render URL; set `VITE_SOCKET_URL` to the Render URL (here `https://teamos-api.onrender.com`).
 
 ## Known limitations
 
